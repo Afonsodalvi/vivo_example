@@ -1,16 +1,15 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.18;
 
-import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
 /**
  * @title RastroDid
- * @dev A demonstration contract for managing user KYC data and ownership with permission-based mapping and NFT issuance.
+ * @dev Contract for managing user KYC data and ownership with permission-based mapping and NFT issuance.
  */
-contract RastroDid is ERC721, Ownable {
+contract RastroDid is ERC721 {
     struct InfoChip {
-        bytes32 KYC; // KYC hash representing user data validation
+        bytes KYC; // KYC hash representing user data validation
         address user; // Associated user's address
     }
 
@@ -18,14 +17,14 @@ contract RastroDid is ERC721, Ownable {
     uint256 public constant COST_CHIP = 0.001 ether;
 
     // Mapping from permission status to user InfoChip
-    mapping(bool => InfoChip) private usePermit;
+    mapping(uint256 _idUser => bool) private useNotPermit;
 
     // Mapping from token ID to user InfoChip
     mapping(uint256 => InfoChip) private idUser;
 
     // Event to notify about chip transfer events
-    event ChipTransferred(uint256 indexed chipId, address indexed user);
-    event ChipPurchased(uint256 indexed chipId, address indexed buyer);
+    event ChipTransferred(uint256 indexed chipId, address indexed user, InfoChip newInfo);
+    event ChipPurchased(uint256 indexed chipId, address indexed buyer, InfoChip info);
 
     // Error indicating array length mismatch in `createChip` function
     error ArrayLengthMismatch();
@@ -33,12 +32,9 @@ contract RastroDid is ERC721, Ownable {
     error PermissionDenied();
 
     /**
-     * @dev Constructor that sets the contract owner and initializes the ERC721 token.
-     * @param _owner The address of the owner.
+     * @dev Constructor that initializes the ERC721 token.
      */
-    constructor(address _owner) ERC721("Vivo", "NFT_Vivo") Ownable(_owner) {
-        transferOwnership(_owner);
-    }
+    constructor() ERC721("Operadora", "NFT_Operadora") {}
 
     /**
      * @notice Creates and assigns InfoChips and mints NFTs for a list of users.
@@ -48,7 +44,7 @@ contract RastroDid is ERC721, Ownable {
      * @param _idUser Array of IDs corresponding to each InfoChip.
      * @param info Array of `InfoChip` structs containing user data.
      */
-    function createChip(address[] memory _users, uint256[] memory _idUser, InfoChip[] memory info) external onlyOwner {
+    function createChip(address[] memory _users, uint256[] memory _idUser, InfoChip[] memory info) external {
         if (_users.length != _idUser.length || _users.length != info.length) {
             revert ArrayLengthMismatch();
         }
@@ -65,10 +61,12 @@ contract RastroDid is ERC721, Ownable {
      * @dev Requires a payment equal to `COST_CHIP`.
      * @param _idChip The ID for the new chip (NFT) being purchased.
      */
-    function buyChip(uint256 _idChip) external payable {
+    function buyChip(uint256 _idChip, InfoChip memory info) external payable {
         require(msg.value >= COST_CHIP, "Incorrect ether amount sent");
+
+        idUser[_idChip] = info;
         _safeMint(msg.sender, _idChip);
-        emit ChipPurchased(_idChip, msg.sender);
+        emit ChipPurchased(_idChip, msg.sender, info);
     }
 
     /**
@@ -77,34 +75,24 @@ contract RastroDid is ERC721, Ownable {
      *      Only allowed if the caller has permission in `usePermit`.
      * @param chipId The ID of the chip to transfer.
      * @param to The address of the new owner.
+     * @param newInfo New InfoChip data associated with the transferred chip.
      */
-    function transferChip(uint256 chipId, address to) external {
+    function transferChip(uint256 chipId, address to, InfoChip memory newInfo) external {
         // Check if the permission is active for the caller
-        if (usePermit[true].user != msg.sender) revert PermissionDenied();
+        if (!useNotPermit[chipId]) revert PermissionDenied();
 
-        // Validate ownership and perform transfer
-        require(ownerOf(chipId) == msg.sender, "Only chip owner can transfer.");
+        idUser[chipId] = newInfo;
         _transfer(msg.sender, to, chipId);
-        emit ChipTransferred(chipId, to);
+        emit ChipTransferred(chipId, to, newInfo);
     }
 
     /**
      * @notice Sets permission for a specific InfoChip.
      * @dev Maps a permission status to a user InfoChip. Only callable by the owner.
      * @param permit The boolean permission to set.
-     * @param info The InfoChip struct to associate with the permission.
      */
-    function setPermission(bool permit, InfoChip calldata info) external onlyOwner {
-        usePermit[permit] = info;
-    }
-
-    /**
-     * @notice Retrieves the owner of a specified chip (NFT).
-     * @param chipId The ID of the chip.
-     * @return The address of the chip's owner.
-     */
-    function getOwnerChip(uint256 chipId) external view returns (address) {
-        return ownerOf(chipId);
+    function setPermission(bool permit, uint256 _idUser) external {
+        useNotPermit[_idUser] = permit;
     }
 
     /**
@@ -116,12 +104,7 @@ contract RastroDid is ERC721, Ownable {
         return idUser[chipId];
     }
 
-    /**
-     * @notice Retrieves InfoChip data associated with a permission status.
-     * @param permit The permission status to query.
-     * @return The InfoChip struct associated with the permission status.
-     */
-    function getPermissionInfo(bool permit) external view returns (InfoChip memory) {
-        return usePermit[permit];
+    function getPermissionInfo(uint256 _idUser) external view returns (bool permission) {
+        return useNotPermit[_idUser];
     }
 }

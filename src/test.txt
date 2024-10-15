@@ -1,0 +1,110 @@
+//interacao de compra de ChipVivo:
+
+  const options = {
+  method: 'POST',
+  headers: {
+    Authorization: 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicHJvamVjdElkIjoiMGY3NTUyMGMtZTgzYi00OTgwLWExMGUtYTNhYTgzMDIwMjViIiwic2NvcGVzIjpbIlJFQURfV0FMTEVUUyIsIlJFQURfQ09OVFJBQ1RTIiwiUkVBRF9UT0tFTl9UWVBFUyIsIlJFQURfVFJBTlNBQ1RJT05TIiwiREVQTE9ZX0NPTlRSQUNUUyIsIldSSVRFX0NPTlRSQUNUUyIsIldSSVRFX0NVU1RPTV9UUkFOU0FDVElPTlMiLCJXUklURV9NSU5UUyIsIldSSVRFX01JTlRTIiwiV1JJVEVfVE9LRU5fVFlQRVMiLCJXUklURV9UUkFOU0ZFUlMiLCJXUklURV9XQUxMRVRTIiwiU0lHTl9NRVNTQUdFIl0sImlhdCI6MTcyODg1MDExMX0.gRtutbD_rXMVDqO7rJn3WSwj4rmT6x_hWmrm1tnII9lmHjgYXIJfv_5-yOnP8TWgDF5rPBH_wNTHmTDO8MdJnm7xKAgviS0ZgGHyXBkzn_sfz_l2vebcKaVvMXSebt8M8RJT-w8KHAu39zTWF9MgxTwrD3w86NAoz_WlttpZ9o6kvMiAKi6WSmxNF460ypKNBMk65Kt4_SQoLMeszJVABOtnqGeHgsOZUIc5DEQnk3FvvcCQ0UkpGAzMdEO4yFVAYu3MCzpyBq843ggZDiAUHGeiF1PKoRKPZqS1g83KGWCWdWM2yt8Fg65_KVOF-9D2kDjiJ2qgSaoH5YuFimmN8-8urXHmgbny0yZSw4aw3TVpWlBEYz5P_xWIcBcPVbRZJmSMq4B1bOfUcc3N5c5nqCKcRGAygTpjbhqaR1PnLz6_hStWDOE-y-4JwtwzBKDblEFyEzI8xpK29xHv6GsjKf4UFBnlaMnna-LujZNHBla9ba2pw2Qi_KyrgolUbem4AcYXTWbfUlqnAka-6llWVRk8alY4jVNMu2zqCqdaXhimxYcY_vQZABYSEhIpY5L2J2NPJOh4qbBBCKr9Im2DW3z6ZG1bt06wWhPEXXGr25xkLwzle49OIN7k89dNS3p7h2YEo0ls-7UYGNVV7E7JbyMGo2SFBJM9snst277XGLw',
+    'Content-Type': 'application/json'
+  },
+  body: '{"walletId":"2493c128-386a-4d8a-9401-e771fccadfd6","contractAddress":"0x4AdA436E21fadfFB41Dd2e0645BFb2A11e29Fe5c","operations":[{"functionSignature":"buyChip(uint256)","argumentsValues":[1],"messageValue":1000000000000000}]}'
+};
+
+fetch('https://protocol-sandbox.lumx.io/v2/transactions/custom', options)
+  .then(response => response.json())
+  .then(response => console.log(response))
+  .catch(err => console.error(err));
+
+
+
+//buyChip:
+
+  curl --request POST \
+  --url https://protocol-sandbox.lumx.io/v2/transactions/custom \
+  --header 'Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicHJvamVjdElkIjoiMGY3NTUyMGMtZTgzYi00OTgwLWExMGUtYTNhYTgzMDIwMjViIiwic2NvcGVzIjpbIlJFQURfV0FMTEVUUyIsIlJFQURfQ09OVFJBQ1RTIiwiUkVBRF9UT0tFTl9UWVBFUyIsIlJFQURfVFJBTlNBQ1RJT05TIiwiREVQTE9ZX0NPTlRSQUNUUyIsIldSSVRFX0NPTlRSQUNUUyIsIldSSVRFX0NVU1RPTV9UUkFOU0FDVElPTlMiLCJXUklURV9NSU5UUyIsIldSSVRFX01JTlRTIiwiV1JJVEVfVE9LRU5fVFlQRVMiLCJXUklURV9UUkFOU0ZFUlMiLCJXUklURV9XQUxMRVRTIiwiU0lHTl9NRVNTQUdFIl0sImlhdCI6MTcyODg1MDExMX0.gRtutbD_rXMVDqO7rJn3WSwj4rmT6x_hWmrm1tnII9lmHjgYXIJfv_5-yOnP8TWgDF5rPBH_wNTHmTDO8MdJnm7xKAgviS0ZgGHyXBkzn_sfz_l2vebcKaVvMXSebt8M8RJT-w8KHAu39zTWF9MgxTwrD3w86NAoz_WlttpZ9o6kvMiAKi6WSmxNF460ypKNBMk65Kt4_SQoLMeszJVABOtnqGeHgsOZUIc5DEQnk3FvvcCQ0UkpGAzMdEO4yFVAYu3MCzpyBq843ggZDiAUHGeiF1PKoRKPZqS1g83KGWCWdWM2yt8Fg65_KVOF-9D2kDjiJ2qgSaoH5YuFimmN8-8urXHmgbny0yZSw4aw3TVpWlBEYz5P_xWIcBcPVbRZJmSMq4B1bOfUcc3N5c5nqCKcRGAygTpjbhqaR1PnLz6_hStWDOE-y-4JwtwzBKDblEFyEzI8xpK29xHv6GsjKf4UFBnlaMnna-LujZNHBla9ba2pw2Qi_KyrgolUbem4AcYXTWbfUlqnAka-6llWVRk8alY4jVNMu2zqCqdaXhimxYcY_vQZABYSEhIpY5L2J2NPJOh4qbBBCKr9Im2DW3z6ZG1bt06wWhPEXXGr25xkLwzle49OIN7k89dNS3p7h2YEo0ls-7UYGNVV7E7JbyMGo2SFBJM9snst277XGLw' \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "walletId": "2493c128-386a-4d8a-9401-e771fccadfd6",
+  "contractAddress": "0xf5534d349Cf86D8C586c90527519D59362ee986D",
+  "operations": [
+    {
+      "functionSignature": "buyChip(uint256,(bytes,address))",
+      "argumentsValues": [
+        6,
+      ["0x4b594320666f72207573657231","0x5bb7dd6a6eb4a440d6C70e1165243190295e290B"]],
+      "messageValue": 1000000000000000
+    }
+  ]
+}'
+
+
+
+create a Chip:
+
+curl --request POST \
+  --url https://protocol-sandbox.lumx.io/v2/transactions/custom \
+  --header 'Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicHJvamVjdElkIjoiMGY3NTUyMGMtZTgzYi00OTgwLWExMGUtYTNhYTgzMDIwMjViIiwic2NvcGVzIjpbIlJFQURfV0FMTEVUUyIsIlJFQURfQ09OVFJBQ1RTIiwiUkVBRF9UT0tFTl9UWVBFUyIsIlJFQURfVFJBTlNBQ1RJT05TIiwiREVQTE9ZX0NPTlRSQUNUUyIsIldSSVRFX0NPTlRSQUNUUyIsIldSSVRFX0NVU1RPTV9UUkFOU0FDVElPTlMiLCJXUklURV9NSU5UUyIsIldSSVRFX01JTlRTIiwiV1JJVEVfVE9LRU5fVFlQRVMiLCJXUklURV9UUkFOU0ZFUlMiLCJXUklURV9XQUxMRVRTIiwiU0lHTl9NRVNTQUdFIl0sImlhdCI6MTcyODg1MDExMX0.gRtutbD_rXMVDqO7rJn3WSwj4rmT6x_hWmrm1tnII9lmHjgYXIJfv_5-yOnP8TWgDF5rPBH_wNTHmTDO8MdJnm7xKAgviS0ZgGHyXBkzn_sfz_l2vebcKaVvMXSebt8M8RJT-w8KHAu39zTWF9MgxTwrD3w86NAoz_WlttpZ9o6kvMiAKi6WSmxNF460ypKNBMk65Kt4_SQoLMeszJVABOtnqGeHgsOZUIc5DEQnk3FvvcCQ0UkpGAzMdEO4yFVAYu3MCzpyBq843ggZDiAUHGeiF1PKoRKPZqS1g83KGWCWdWM2yt8Fg65_KVOF-9D2kDjiJ2qgSaoH5YuFimmN8-8urXHmgbny0yZSw4aw3TVpWlBEYz5P_xWIcBcPVbRZJmSMq4B1bOfUcc3N5c5nqCKcRGAygTpjbhqaR1PnLz6_hStWDOE-y-4JwtwzBKDblEFyEzI8xpK29xHv6GsjKf4UFBnlaMnna-LujZNHBla9ba2pw2Qi_KyrgolUbem4AcYXTWbfUlqnAka-6llWVRk8alY4jVNMu2zqCqdaXhimxYcY_vQZABYSEhIpY5L2J2NPJOh4qbBBCKr9Im2DW3z6ZG1bt06wWhPEXXGr25xkLwzle49OIN7k89dNS3p7h2YEo0ls-7UYGNVV7E7JbyMGo2SFBJM9snst277XGLw' \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "walletId": "2493c128-386a-4d8a-9401-e771fccadfd6",
+  "contractAddress": "0xf5534d349Cf86D8C586c90527519D59362ee986D",
+  "operations": [
+    {
+      "functionSignature": "createChip(address[], uint256[], (bytes,address)[])",
+      "argumentsValues": [
+        [
+          "0x5bb7dd6a6eb4a440d6C70e1165243190295e290B"
+          ],
+        [
+          7
+        ],
+        [["0x4b594320666f72207573657231","0x5bb7dd6a6eb4a440d6C70e1165243190295e290B"]]
+      ]
+    }
+  ]
+}'
+
+
+//setPermission:
+
+curl --request POST \
+  --url https://protocol-sandbox.lumx.io/v2/transactions/custom \
+  --header 'Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicHJvamVjdElkIjoiMGY3NTUyMGMtZTgzYi00OTgwLWExMGUtYTNhYTgzMDIwMjViIiwic2NvcGVzIjpbIlJFQURfV0FMTEVUUyIsIlJFQURfQ09OVFJBQ1RTIiwiUkVBRF9UT0tFTl9UWVBFUyIsIlJFQURfVFJBTlNBQ1RJT05TIiwiREVQTE9ZX0NPTlRSQUNUUyIsIldSSVRFX0NPTlRSQUNUUyIsIldSSVRFX0NVU1RPTV9UUkFOU0FDVElPTlMiLCJXUklURV9NSU5UUyIsIldSSVRFX01JTlRTIiwiV1JJVEVfVE9LRU5fVFlQRVMiLCJXUklURV9UUkFOU0ZFUlMiLCJXUklURV9XQUxMRVRTIiwiU0lHTl9NRVNTQUdFIl0sImlhdCI6MTcyODg1MDExMX0.gRtutbD_rXMVDqO7rJn3WSwj4rmT6x_hWmrm1tnII9lmHjgYXIJfv_5-yOnP8TWgDF5rPBH_wNTHmTDO8MdJnm7xKAgviS0ZgGHyXBkzn_sfz_l2vebcKaVvMXSebt8M8RJT-w8KHAu39zTWF9MgxTwrD3w86NAoz_WlttpZ9o6kvMiAKi6WSmxNF460ypKNBMk65Kt4_SQoLMeszJVABOtnqGeHgsOZUIc5DEQnk3FvvcCQ0UkpGAzMdEO4yFVAYu3MCzpyBq843ggZDiAUHGeiF1PKoRKPZqS1g83KGWCWdWM2yt8Fg65_KVOF-9D2kDjiJ2qgSaoH5YuFimmN8-8urXHmgbny0yZSw4aw3TVpWlBEYz5P_xWIcBcPVbRZJmSMq4B1bOfUcc3N5c5nqCKcRGAygTpjbhqaR1PnLz6_hStWDOE-y-4JwtwzBKDblEFyEzI8xpK29xHv6GsjKf4UFBnlaMnna-LujZNHBla9ba2pw2Qi_KyrgolUbem4AcYXTWbfUlqnAka-6llWVRk8alY4jVNMu2zqCqdaXhimxYcY_vQZABYSEhIpY5L2J2NPJOh4qbBBCKr9Im2DW3z6ZG1bt06wWhPEXXGr25xkLwzle49OIN7k89dNS3p7h2YEo0ls-7UYGNVV7E7JbyMGo2SFBJM9snst277XGLw' \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "walletId": "2493c128-386a-4d8a-9401-e771fccadfd6",
+  "contractAddress": "0xf5534d349Cf86D8C586c90527519D59362ee986D",
+  "operations": [
+    {
+      "functionSignature": "setNotPermission(bool, uint256)",
+      "argumentsValues": [
+        true,
+        6]
+    }
+  ]
+}'
+
+
+//transfer 
+
+curl --request POST \
+  --url https://protocol-sandbox.lumx.io/v2/transactions/custom \
+  --header 'Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicHJvamVjdElkIjoiMGY3NTUyMGMtZTgzYi00OTgwLWExMGUtYTNhYTgzMDIwMjViIiwic2NvcGVzIjpbIlJFQURfV0FMTEVUUyIsIlJFQURfQ09OVFJBQ1RTIiwiUkVBRF9UT0tFTl9UWVBFUyIsIlJFQURfVFJBTlNBQ1RJT05TIiwiREVQTE9ZX0NPTlRSQUNUUyIsIldSSVRFX0NPTlRSQUNUUyIsIldSSVRFX0NVU1RPTV9UUkFOU0FDVElPTlMiLCJXUklURV9NSU5UUyIsIldSSVRFX01JTlRTIiwiV1JJVEVfVE9LRU5fVFlQRVMiLCJXUklURV9UUkFOU0ZFUlMiLCJXUklURV9XQUxMRVRTIiwiU0lHTl9NRVNTQUdFIl0sImlhdCI6MTcyODg1MDExMX0.gRtutbD_rXMVDqO7rJn3WSwj4rmT6x_hWmrm1tnII9lmHjgYXIJfv_5-yOnP8TWgDF5rPBH_wNTHmTDO8MdJnm7xKAgviS0ZgGHyXBkzn_sfz_l2vebcKaVvMXSebt8M8RJT-w8KHAu39zTWF9MgxTwrD3w86NAoz_WlttpZ9o6kvMiAKi6WSmxNF460ypKNBMk65Kt4_SQoLMeszJVABOtnqGeHgsOZUIc5DEQnk3FvvcCQ0UkpGAzMdEO4yFVAYu3MCzpyBq843ggZDiAUHGeiF1PKoRKPZqS1g83KGWCWdWM2yt8Fg65_KVOF-9D2kDjiJ2qgSaoH5YuFimmN8-8urXHmgbny0yZSw4aw3TVpWlBEYz5P_xWIcBcPVbRZJmSMq4B1bOfUcc3N5c5nqCKcRGAygTpjbhqaR1PnLz6_hStWDOE-y-4JwtwzBKDblEFyEzI8xpK29xHv6GsjKf4UFBnlaMnna-LujZNHBla9ba2pw2Qi_KyrgolUbem4AcYXTWbfUlqnAka-6llWVRk8alY4jVNMu2zqCqdaXhimxYcY_vQZABYSEhIpY5L2J2NPJOh4qbBBCKr9Im2DW3z6ZG1bt06wWhPEXXGr25xkLwzle49OIN7k89dNS3p7h2YEo0ls-7UYGNVV7E7JbyMGo2SFBJM9snst277XGLw' \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "walletId": "2493c128-386a-4d8a-9401-e771fccadfd6",
+  "contractAddress": "0xf5534d349Cf86D8C586c90527519D59362ee986D",
+  "operations": [
+    {
+      "functionSignature": "transferChip(uint256, address, (bytes,address))",
+      "argumentsValues": [
+        6,
+        "0x5bb7dd6a6eb4a440d6C70e1165243190295e290B",
+        ["0x4b594320666f72207573657231","0x5bb7dd6a6eb4a440d6C70e1165243190295e290B"]]
+    }
+  ]
+}'
+
+
+Exemplos de eventos e logs:
+
+https://amoy.polygonscan.com/tx/0x12282c042b76950dd28187b0e73d84e9df7a3ac422e043b2ce2ac1d5d48841b2#eventlog
